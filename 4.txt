@@ -1,0 +1,6 @@
+This is a confidential document created during my CodTech Internship.
+
+Do not share this file without permission.
+
+Project: Advanced Encryption Tool using AES-256.
+Developed using Python and Cryptography library.
