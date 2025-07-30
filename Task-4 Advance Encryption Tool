@@ -1,0 +1,66 @@
+
+from google.colab import files
+uploaded = files.upload()
+from cryptography.fernet import Fernet
+import base64
+import os
+
+# Generate and save key
+def generate_key():
+    key = Fernet.generate_key()
+    with open("secret.key", "wb") as key_file:
+        key_file.write(key)
+    print("🔑 Key generated and saved as secret.key")
+
+# Load existing key
+def load_key():
+    return open("secret.key", "rb").read()
+
+# Encrypt file
+def encrypt_file(filename, key):
+    f = Fernet(key)
+    with open(filename, "rb") as file:
+        data = file.read()
+    encrypted_data = f.encrypt(data)
+    with open(filename + ".enc", "wb") as file:
+        file.write(encrypted_data)
+    print(f"✅ File encrypted: {filename}.enc")
+
+# Decrypt file
+def decrypt_file(filename, key):
+    f = Fernet(key)
+    with open(filename, "rb") as file:
+        encrypted_data = file.read()
+    try:
+        decrypted_data = f.decrypt(encrypted_data)
+        with open("decrypted_" + filename.replace(".enc", ""), "wb") as file:
+            file.write(decrypted_data)
+        print(f"✅ File decrypted: decrypted_{filename.replace('.enc', '')}")
+    except Exception as e:
+        print("❌ Decryption failed:", e)
+
+# MENU
+def main():
+    print("🔐 ADVANCED AES ENCRYPTION TOOL")
+    print("1. Generate Key")
+    print("2. Encrypt File")
+    print("3. Decrypt File")
+    choice = input("Enter your choice (1/2/3): ")
+
+    if choice == "1":
+        generate_key()
+
+    elif choice == "2":
+        filename = input("Enter file name to encrypt (uploaded in Colab): ")
+        key = load_key()
+        encrypt_file(filename, key)
+
+    elif choice == "3":
+        filename = input("Enter .enc file to decrypt: ")
+        key = load_key()
+        decrypt_file(filename, key)
+
+    else:
+        print("❌ Invalid choice!")
+
+main()
