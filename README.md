@@ -48,4 +48,4 @@ Run the encryption code by providing a password. The tool will generate an encry
 To read the original file, run the decryption code and enter the correct password. The original content will be restored.
 
 Output:
-I have attached two types of screenshots.
+I have attached screenshots.
